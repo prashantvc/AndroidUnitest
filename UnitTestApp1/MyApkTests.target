@@ -31,7 +31,7 @@
         </Xamarin.Android.Tools.BootstrapTasks.CheckAdbTarget>
         <CreateAndroidEmulator
             Condition=" '$(_ValidAdbTarget)' != 'True' "
-            AndroidAbi="x86_64"
+            AndroidAbi="x86"
             AndroidSdkHome="$(AndroidSdkDirectory)"
             JavaSdkHome="$(JavaSdkDirectory)"
             SdkVersion="21"
@@ -122,4 +122,87 @@
           ToolPath="$(AdbToolPath)"
       />
     </Target>
+    <Target Name="ReleaseAndroidTarget">
+    <Xamarin.Android.Tools.BootstrapTasks.Adb
+        Condition="'@(_FailedComponent)' != ''"
+        ContinueOnError="True"
+        Arguments="$(_EmuTarget) logcat -d"
+        ToolExe="$(AdbToolExe)"
+        ToolPath="$(AdbToolPath)"
+    />
+    <Xamarin.Android.Tools.BootstrapTasks.Adb
+        Condition=" '$(_EmuTarget)' != '' "
+        ContinueOnError="True"
+        Arguments="$(_EmuTarget) emu kill"
+        ToolExe="$(AdbToolExe)"
+        ToolPath="$(AdbToolPath)"
+    />
+    <KillProcess
+        Condition=" '$(_EmuTarget)' != '' "
+        ContinueOnError="True"
+        ProcessId="$(_EmuPid)"
+    />
+    <Xamarin.Android.Tools.BootstrapTasks.Adb
+        Arguments="kill-server"
+        ContinueOnError="True"
+        ToolExe="$(AdbToolExe)"
+        ToolPath="$(AdbToolPath)"
+    />
+    <Exec
+        Condition=" '$(HostOS)' != 'Windows' And '$(_EmuTarget)' != '' "
+        ContinueOnError="True"
+        Command="kill -HUP $(_EmuPid)"
+    />
+    <Sleep
+        Condition=" '$(HostOS)' != 'Windows' And '$(_EmuTarget)' != '' "
+        Milliseconds="5000"
+    />
+    <Exec
+        Condition=" '$(HostOS)' != 'Windows' And '$(_EmuTarget)' != '' "
+        ContinueOnError="True"
+        Command="kill -KILL $(_EmuPid)"
+    />
+    <Error
+        Condition="'@(_FailedComponent)' != ''"
+        Text="Execution of the following components did not complete successfully: @(_FailedComponent->'%(Identity)', ', ')"
+    />
+  </Target>
+   <Target Name="RenameTestCases">
+    <Error
+        Condition=" '$(RenameTestCasesGlob)' == '' "
+        Text="Please set `%24(RenameTestCasesGlob)`."
+    />
+    <Error
+        Condition=" '$(Configuration)' == '' "
+        Text="Please set `%24(Configuration)`."
+    />
+    <PropertyGroup>
+      <_DeleteSource Condition=" '$(DeleteTestCaseSourceFiles)' != '' ">$(DeleteTestCaseSourceFiles)</_DeleteSource>
+      <_DeleteSource Condition=" '$(_DeleteSource)' == '' ">True</_DeleteSource>
+    </PropertyGroup>
+    <ItemGroup>
+      <_RenameSource1 Include="$(RenameTestCasesGlob)" />
+    </ItemGroup>
+    <ItemGroup>
+      <_RenameSource  Include="%(_RenameSource1.Identity)">
+        <DestinationFolder>@(_RenameSource1->'%(RootDir)%(Directory)')</DestinationFolder>
+      </_RenameSource>
+    </ItemGroup>
+    <RenameTestCases
+        Configuration="$(Configuration)"
+        DeleteSourceFiles="$(_DeleteSource)"
+        SourceFile="%(_RenameSource.Identity)"
+        DestinationFolder="%(_RenameSource.DestinationFolder)"
+    />
+  </Target>
+    <Target Name="RenameApkTestCases"
+      Condition=" '@(TestApk)' != '' ">
+    <RenameTestCases
+        Condition=" '%(TestApk.ResultsPath)' != '' "
+        Configuration="$(Configuration)$(_AotName)"
+        DeleteSourceFiles="True"
+        DestinationFolder="$(MSBuildThisFileDirectory)"
+        SourceFile="%(TestApk.ResultsPath)"
+    />
+  </Target>
 </Project>
