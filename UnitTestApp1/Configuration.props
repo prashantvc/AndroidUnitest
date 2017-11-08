@@ -1,18 +1,17 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <AndroidToolchainDirectory Condition=" '$(AndroidToolchainDirectory)' == '' ">$(HOME)\android-toolchain</AndroidToolchainDirectory>
-        <AndroidSdkDirectory>$(AndroidToolchainDirectory)\sdk</AndroidSdkDirectory>
-        <JavaSdkDirectory>$(JAVA_HOME)</JavaSdkDirectory>
+  <PropertyGroup>
+    <AndroidSdkDirectory>$(ANDROID_HOME)</AndroidSdkDirectory>
+    <JavaSdkDirectory>$(JAVA_HOME)</JavaSdkDirectory>
 
-        <AndroidSdkFullPath>$([System.IO.Path]::GetFullPath ('$(AndroidSdkDirectory)'))</AndroidSdkFullPath>
+    <AndroidSdkFullPath>$([System.IO.Path]::GetFullPath ('$(AndroidSdkDirectory)'))</AndroidSdkFullPath>
 
-        <AdbToolPath Condition=" '$(AdbToolPath)' == '' ">$(AndroidSdkFullPath)\platform-tools</AdbToolPath>
-        <AdbToolExe Condition=" '$(AdbToolExe)' == '' ">adb</AdbToolExe>
+    <AdbToolPath Condition=" '$(AdbToolPath)' == '' ">$(AndroidSdkFullPath)\platform-tools</AdbToolPath>
+    <AdbToolExe Condition=" '$(AdbToolExe)' == '' ">adb</AdbToolExe>
 
-        <AvdManagerToolExe Condition=" '$(AvdManagerToolExe)' == '' ">avdmanager</AvdManagerToolExe>
-        <AndroidToolPath Condition=" '$(AndroidToolPath)' == '' ">$(AndroidSdkFullPath)\tools</AndroidToolPath>
-        <AndroidToolsBinPath Condition=" '$(AndroidToolsBinPath)' == '' ">$(AndroidToolPath)\bin</AndroidToolsBinPath>
-        <EmulatorToolPath Condition=" '$(EmulatorToolPath)' == '' ">$(AndroidSdkFullPath)\tools</EmulatorToolPath>
-        <EmulatorToolExe Condition=" '$(EmulatorToolExe)' == '' ">emulator</EmulatorToolExe>
-    </PropertyGroup>
+    <AvdManagerToolExe Condition=" '$(AvdManagerToolExe)' == '' ">avdmanager</AvdManagerToolExe>
+    <AndroidToolPath Condition=" '$(AndroidToolPath)' == '' ">$(AndroidSdkFullPath)\tools</AndroidToolPath>
+    <AndroidToolsBinPath Condition=" '$(AndroidToolsBinPath)' == '' ">$(AndroidToolPath)\bin</AndroidToolsBinPath>
+    <EmulatorToolPath Condition=" '$(EmulatorToolPath)' == '' ">$(AndroidSdkFullPath)\tools</EmulatorToolPath>
+    <EmulatorToolExe Condition=" '$(EmulatorToolExe)' == '' ">emulator</EmulatorToolExe>
+  </PropertyGroup>
 </Project>
