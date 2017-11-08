@@ -1,6 +1,6 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AndroidSdkDirectory>\Users\ci\Library\Android\sdk</AndroidSdkDirectory>
+    <AndroidSdkDirectory>\Users\vsts\Library\Android\sdk</AndroidSdkDirectory>
     <JavaSdkDirectory>$(JAVA_HOME)</JavaSdkDirectory>
 
     <AndroidSdkFullPath>$([System.IO.Path]::GetFullPath ('$(AndroidSdkDirectory)'))</AndroidSdkFullPath>
