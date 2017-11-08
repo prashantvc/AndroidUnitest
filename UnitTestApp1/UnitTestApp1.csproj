@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="UnitTest.projitems" />
+  <Import Project="MyApkTests.target" />
+  <Import Project="Configuration.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -42,6 +45,15 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunApkTestsDependsOn>
+      AcquireAndroidTarget;
+      UndeployTestApks;
+      DeployTestApks;
+      RunTestApks;
+      </RunApkTestsDependsOn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -58,10 +70,15 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-   <Target Name="RunMyTests" DependsOnTargets="RunTests">
-      <Message Text="Android directory = $(AndroidSdkDirectory)" Importance="high" />
+  <Target Name="SignApk" DependsOnTargets="SignAndroidPackage">
+    <Message Text="Output directory = $(OutputPath)" Importance="high" />
+  </Target>
+  <Target Name="RunMyTests" DependsOnTargets="$(RunApkTestsDependsOn)">
+    <Message Text="## output path - $(OutputPath)" Importance="high" />
+    <!--
         <Exec Command='"$(_AndroidPlatformToolsDirectory)adb" $(AdbTarget) $(AdbOptions) shell am instrument -w $(_AndroidPackage)/app.tests.TestInstrumentation' />
-    </Target>
+      -->
+  </Target>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

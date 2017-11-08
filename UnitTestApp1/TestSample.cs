@@ -16,27 +16,27 @@ namespace UnitTestApp1
         public void Tear() { }
 
         [Test]
-        public void Pass()
+        public void This_Test_Will_Pass()
         {
             Console.WriteLine("test1");
             Assert.True(true);
         }
 
         [Test]
-        public void Fail()
+        public void This_Test_Will_Fail()
         {
             Assert.False(true);
         }
 
         [Test]
         [Ignore("another time")]
-        public void Ignore()
+        public void This_Test_Will_Be_Ignored()
         {
             Assert.True(false);
         }
 
         [Test]
-        public void Inconclusive()
+        public void This_Test_Will_Be_Inconclusive()
         {
             Assert.Inconclusive("Inconclusive");
         }
