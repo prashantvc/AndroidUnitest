@@ -201,7 +201,7 @@
         Condition=" '%(TestApk.ResultsPath)' != '' "
         Configuration="$(Configuration)$(_AotName)"
         DeleteSourceFiles="True"
-        DestinationFolder="$(MSBuildThisFileDirectory)"
+        DestinationFolder="$(MyBuildOutputPath)"
         SourceFile="%(TestApk.ResultsPath)"
     />
   </Target>

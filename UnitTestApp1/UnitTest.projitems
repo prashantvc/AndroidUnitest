@@ -4,7 +4,7 @@
     <TestApk Include="$(MyBuildOutputPath)/com.prashantvc.UnitTestApp.apk">
       <Package>com.prashantvc.UnitTestApp</Package>
       <InstrumentationType>app.tests.TestInstrumentation</InstrumentationType>
-      <ResultsPath>$(OutputPath)com.prashantvc.UnitTestApp_Tests.xml</ResultsPath>
+      <ResultsPath>$(MyBuildOutputPath)com.prashantvc.UnitTestApp_Tests.xml</ResultsPath>
       <!-- <TimingDefinitionsFilename>$(MSBuildThisFileDirectory)..\..\..\build-tools\scripts\TimingDefinitions.txt</TimingDefinitionsFilename>
       <TimingResultsFilename>$(MSBuildThisFileDirectory)..\..\..\TestResult-Xamarin.Android.Locale_Tests-times.csv</TimingResultsFilename> -->
     </TestApk>
